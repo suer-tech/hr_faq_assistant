@@ -17,12 +17,30 @@ def create_rag_graph():
         embedding_function=embeddings,
     )
 
+    retriever = vectorstore.as_retriever(
+        search_kwargs={
+            "k": 3
+        }
+    )
+
     llm = ChatOpenAI(model=Config.LLM_MODEL, api_key=Config.OPENAI_API_KEY)
 
     system_prompt = (
-        "You are an HR assistant. Use the following context to answer the user's question. "
-        "If you don't know, say that you don't know."
-        "\n\n{context}"
+        "Ты — HR-ассистент компании. Твоя задача — отвечать на вопросы сотрудников, "
+        "используя только информацию, содержащуюся в предоставленном контексте. "
+        "Не придумывай ничего самостоятельно, не используй знания, полученные до обучения. "
+        "Если в контексте нет информации — честно скажи, что не можешь ответить, и предложи "
+        "обратиться в HR-отдел.\n\n"
+        "Формат ответа:\n"
+        "- Краткий заголовок.\n"
+        "- Подробное объяснение.\n"
+        "- При необходимости — ссылка на конкретный документ или раздел.\n\n"
+        "Стиль:\n"
+        "- Вежливый, профессиональный.\n"
+        "- Ясный, структурированный.\n"
+        "- На русском языке.\n\n"
+        "Контекст:\n"
+        "{context}"
     )
 
     prompt = ChatPromptTemplate.from_messages([
@@ -31,7 +49,7 @@ def create_rag_graph():
     ])
 
     question_answer_chain = create_stuff_documents_chain(llm, prompt)
-    rag_chain = create_retrieval_chain(vectorstore.as_retriever(), question_answer_chain)
+    rag_chain = create_retrieval_chain(retriever, question_answer_chain)
 
     def rag_node(state: dict):
         query = state["messages"][-1].content

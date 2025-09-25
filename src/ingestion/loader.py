@@ -12,7 +12,7 @@ def load_and_embed_documents():
     )
     documents = loader.load()
 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=50)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1024, chunk_overlap=100)
     chunks = text_splitter.split_documents(documents)
 
     embeddings = JinaEmbeddings(model_name=Config.EMBEDDING_MODEL)
