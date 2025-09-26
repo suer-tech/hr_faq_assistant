@@ -18,3 +18,5 @@ tiktoken
 pytest
 requests
 redis
+langchain-openai
+unstructured[local-inference]
