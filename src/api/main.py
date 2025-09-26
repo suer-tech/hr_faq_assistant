@@ -1,9 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from langchain_core.messages import HumanMessage
-from src.rag.graph import create_rag_graph
-from src.evaluation.metrics import evaluate_response
-from src.cache import load_chat_history, save_chat_history
+from langchain_openai import ChatOpenAI
+from rag.graph import create_rag_graph
+from evaluation.metrics import evaluate_response
+from cache import load_chat_history, save_chat_history
 from config import Config
 
 app = FastAPI(title="HR FAQ Assistant", version="1.0")

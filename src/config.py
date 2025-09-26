@@ -1,4 +1,5 @@
 import os
+import logging
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -8,9 +9,9 @@ class Config:
     DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+psycopg2://user:password@localhost/hr_db")
     COLLECTION_NAME = "hr_documents"
 
-    # OpenAI
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-    LLM_MODEL = os.getenv("LLM_MODEL", "gpt-3.5-turbo")
+    # OpenRouter
+    OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+    LLM_MODEL = os.getenv("LLM_MODEL", "openchat/openchat-7b")
 
     # Embeddings
     EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "jinaai/jina-embeddings-v2-base-en")

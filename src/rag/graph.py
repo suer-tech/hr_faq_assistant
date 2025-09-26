@@ -1,7 +1,7 @@
-from src.cache import get_cached_embedding, cache_embedding, get_cached_answer, cache_answer
-from src.embeddings.jina_embeddings import JinaEmbeddings
+from cache import get_cached_embedding, cache_embedding, get_cached_answer, cache_answer
+from embeddings.jina_embeddings import JinaEmbeddings
 from langchain.vectorstores import PGVector
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
@@ -23,7 +23,11 @@ def create_rag_graph():
         }
     )
 
-    llm = ChatOpenAI(model=Config.LLM_MODEL, api_key=Config.OPENAI_API_KEY)
+    llm = ChatOpenAI(
+        model=Config.LLM_MODEL,
+        api_key=Config.OPENROUTER_API_KEY,
+        base_url="https://openrouter.ai/api/v1"  # <-- Указываем OpenRouter
+    )
 
     system_prompt = (
         "Ты — HR-ассистент компании. Твоя задача — отвечать на вопросы сотрудников, "

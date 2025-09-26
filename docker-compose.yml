@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: ankane/pgvector
@@ -21,20 +19,18 @@ services:
       - "8000:8000"
     environment:
       - DATABASE_URL=postgresql+psycopg2://user:password@postgres/hr_db
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - LLM_MODEL=openchat/openchat-7b
+      - EMBEDDING_MODEL=jinaai/jina-embeddings-v2-base-en
+      - REDIS_URL=redis://redis:6379
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - PYTHONPATH=/app/src
     depends_on:
       - postgres
       - redis
     volumes:
-      - .:/app/data
-
-  mlflow:
-    image: ghcr.io/mlflow/mlflow:latest
-    ports:
-      - "5000:5000"
-    command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlartifacts
-    volumes:
-      - ./mlruns:/mlflow/mlruns
+      - ./data:/app/data
 
 volumes:
-  postgres_
+  postgres_:

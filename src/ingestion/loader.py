@@ -1,6 +1,6 @@
 from langchain.document_loaders import DirectoryLoader, UnstructuredMarkdownLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from src.embeddings.jina_embeddings import JinaEmbeddings
+from embeddings.jina_embeddings import JinaEmbeddings
 from langchain.vectorstores import PGVector
 from config import Config
 
